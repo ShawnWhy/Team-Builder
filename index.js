@@ -3,28 +3,82 @@ const inquirer = require("inquirer");
 const axios = require("axios");
 const util = require("util");
 // const employee = require(".\lib/employee");
-const manager = require("./lib/manager");
-const intern = require("./lib/intern");``
-const engineer = require("./lib/engineer");
-const designer = require("./lib/designer");
+// const manager = require("./lib/manager");
+// const intern = require("./lib/intern");``
+// const engineer = require("./lib/engineer");
+// const designer = require("./lib/designer");
 var newEmployee;
 
 var newEmployeeName;
 var newEmployeePosition;
 var newEmployeeEmail;
+var newEmployeeGitHub;
+var newEmployeeSchool;
+var newEmployeePortfolio; 
+var newEmployeeSchool;
 
 asyncReadFile= util.promisify(fs.readFile); 
 asyncWriteFile=util.promisify(fs.appendFile);
 asyncAppendFile = util.promisify(fs.appendFile);
-// const employeeList=[];
 
- function secondhalf(){
-        fs.readFile(`./templates/${newEmployeePosition}.html`,"utf8",function(err,data){
-           if(err) {throw err;}
-       
-       console.log(data);
-    fs.appendFile("./output/webpage.html",data,"utf8",function(err){
-        console.log(data);
+
+
+function getInformationEngineer(){
+    inquirer.prompt(
+        {type:"input",
+           name:"GitHub",
+       message:"what is your GitHub Account Name?"},
+      
+    ).then((data)=>{ 
+        console.log(data.GitHub)
+    if(data.GitHub==data.GitHub){
+        newEmployeeGitHub=data.GitHub;
+            deployinformationEngineerManager(newEmployeeGitHub)}}
+            
+        )};
+function getInformationManager(){
+    inquirer.prompt(
+        {type:"input",
+           name:"GitHub",
+       message:"what is your GitHub Account Name?"},
+      
+    ).then((data)=>{ 
+        console.log(data.GitHub)
+    if(data.GitHub==data.GitHub){
+        newEmployeeGitHub=data.GitHub;
+            deployinformationEngineerManager(newEmployeeGitHub)}}
+            
+        )
+}
+
+function getInformationIntern(){
+    inquirer.prompt(
+        {type:"input",
+           name:"school",
+       message:"what School did you go to?"},
+      
+    ).then((data)=>{ 
+        console.log(data.GitHub)
+    if(data.GitHub==data.GitHub){
+        newEmployeeSchool= data.school; 
+
+            deployinformationIntern(newEmployeeSchool)}}
+            
+        )
+}
+
+
+ function deployinformationIntern(){
+    fs.appendFile(  "./output/webpage.html",`<div class="profile-container" >
+    <div class="logo-container"><img><img></div>
+    <div class="name">${newEmployeeName}</div>
+    <div class="line"></div>
+    <div class="position">position:${newEmployeePosition}</div>
+    <div class="line"></div>
+    <div class="email"><b>email:</b><br>${newEmployeeEmail}</div>
+    <div class="information"><b>Alma Mater:${newEmployeeSchool}</a></div>
+    </div>`,"utf8",function(err){
+        
         if(err){throw err;}
     
          inquirer.prompt(
@@ -41,13 +95,100 @@ asyncAppendFile = util.promisify(fs.appendFile);
                     getEmployee();break;
                 case "no":
                     fs.appendFile("./output/webpage.html",`</body></html>`,"utf8",function(err){
-                        if(err){throw err;}
+                        if(err){throw err;};
+                        console.log("completed TeamProfile");
                     });
                     break;
-                }
+   }
+})})}
+function getInformationDesigner(){
+    inquirer.prompt(
+        {type:"input",
+           name:"portfolio",
+       message:"please provide your online portfolio"},
+      
+    ).then((data)=>{ 
+        console.log(data.portfolio)
+    if(data.portfolio==data.portfolio){
+        newEmployeePosition= data.portfilio;
 
-})})})};
+            deployinformationDesigner(newEmployeePortfolio)}}
             
+        )
+}
+
+
+function deployinformationDesigner(){
+    fs.appendFile(  "./output/webpage.html",`<div class="profile-container" >
+    <div class="logo-container"><img><img></div>
+    <div class="name">${newEmployeeName}</div>
+    <div class="line"></div>
+    <div class="position">position:${newEmployeePosition}</div>
+    <div class="line"></div>
+    <div class="email"><b>email:</b><br>${newEmployeeEmail}</div>
+    <div class="information"><b>portfolio:</b><a href=${newEmployeePortfolio}>${newEmployeePortfolio}</a></div>
+    </div>`,"utf8",function(err){
+        
+        if(err){throw err;}
+    
+         inquirer.prompt(
+            {type:"list",
+            message:"are there any more people on the team?",
+            name:"continue",
+            choices:[
+                "yes",
+                "no"
+            ]}
+        ).then(function(data){
+            switch(data.continue){
+                case "yes":
+                    getEmployee();break;
+                case "no":
+                    fs.appendFile("./output/webpage.html",`</body></html>`,"utf8",function(err){
+                        if(err){throw err;};
+                        console.log("completed TeamProfile");
+                    });
+                    break;
+   }
+})})}
+   
+   function deployinformationEngineerManager(newEmployeeGitHub){
+    
+    fs.appendFile(  "./output/webpage.html",`<div class="profile-container" >
+    <div class="logo-container"><img><img></div>
+    <div class="name">${newEmployeeName}</div>
+    <div class="line"></div>
+    <div class="position">position:${newEmployeePosition}</div>
+    <div class="line"></div>
+    <div class="email"><b>email:</b><br>${newEmployeeEmail}</div>
+    <div class="information"><b>GitHub:</b><a href="http://Github.com/${newEmployeeGitHub}">${newEmployeeGitHub}</a></div>
+    </div>`,"utf8",function(err){
+        
+        if(err){throw err;}
+    
+         inquirer.prompt(
+            {type:"list",
+            message:"are there any more people on the team?",
+            name:"continue",
+            choices:[
+                "yes",
+                "no"
+            ]}
+        ).then(function(data){
+            switch(data.continue){
+                case "yes":
+                    getEmployee();break;
+                case "no":
+                    fs.appendFile("./output/webpage.html",`</body></html>`,"utf8",function(err){
+                        if(err){throw err;};
+                        console.log("completed TeamProfile");
+                    });
+                    break;
+   }
+})})}
+      
+
+
         
 
 async function getEmployee(){
@@ -83,35 +224,30 @@ try{
     .then(()=>{  switch(newEmployeePosition){
         
         case"manager":
-             newEmployee=new manager(newEmployeeName,newEmployeeEmail);
-            newEmployee.getInformation()in
-            console.log(newEmployee);
-            // setTimeout(secondhalf(),200);
-            ;
+            getInformationManager();             
 
             break;
        
             case"engineer":
-             newEmployee=new engineer(newEmployeeName,newEmployeeEmail)
-            newEmployee.getInformation();
+             getInformationEngineer();
+         
             
 
             break;
         
             case"intern":
-             newEmployee=new intern(newEmployeeName,newEmployeeEmail)
-            newEmployee.getInformation();
+            getInformationIntern();
             break;
+            
        
             case"designer":
-             newEmployee=new designer(newEmployeeName,newEmployeeEmail)
-            newEmployee.getInformation();
+            getInformationDesigner();
             
             break;
         
  }
 })
-secondhalf(newEmployeePosition, newEmployeeEmail, newEmployeeName);
+
 
 
 
@@ -122,8 +258,12 @@ secondhalf(newEmployeePosition, newEmployeeEmail, newEmployeeName);
 
     catch(err){
         console.log(err);
-}}
+}}  
         getEmployee();
+
+        module.exports={
+            getEmployee:getEmployee
+        }
 
     // await inquirer.prompt({
     //     type:"input",
